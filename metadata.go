@@ -1,6 +1,7 @@
 package resource
 
 import "github.com/google/go-github/github"
+import "strconv"
 
 func metadataFromRelease(release *github.RepositoryRelease) []MetadataPair {
 	metadata := []MetadataPair{}
@@ -53,5 +54,20 @@ func metadataFromRelease(release *github.RepositoryRelease) []MetadataPair {
 			Value: "true",
 		})
 	}
+
+	if release.CreatedAt != nil {
+		metadata = append(metadata, MetadataPair{
+			Name:  "created-at",
+			Value: strconv.FormatInt(release.CreatedAt.Unix(),10),
+		})
+	}
+
+	if release.CreatedAt != nil {
+		metadata = append(metadata, MetadataPair{
+			Name:  "published-at",
+			Value: strconv.FormatInt(release.PublishedAt.Unix(), 10),
+		})
+	}
+
 	return metadata
 }

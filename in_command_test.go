@@ -18,6 +18,7 @@ import (
 
 	"github.com/concourse/github-release-resource"
 	"github.com/concourse/github-release-resource/fakes"
+	"time"
 )
 
 var _ = Describe("In Command", func() {
@@ -65,6 +66,8 @@ var _ = Describe("In Command", func() {
 			Body:       github.String("*markdown*"),
 			Draft:      github.Bool(draft),
 			Prerelease: github.Bool(false),
+			CreatedAt:   &github.Timestamp{Time: time.Unix(92640780,0)},
+			PublishedAt:   &github.Timestamp{Time: time.Unix(93641100,0)},
 		}
 	}
 
@@ -76,6 +79,8 @@ var _ = Describe("In Command", func() {
 			Body:       github.String("*markdown*"),
 			Draft:      github.Bool(true),
 			Prerelease: github.Bool(false),
+			CreatedAt:   &github.Timestamp{Time: time.Unix(92640780,0)},
+			PublishedAt:   &github.Timestamp{Time: time.Unix(93641100,0)},
 		}
 	}
 
@@ -129,6 +134,8 @@ var _ = Describe("In Command", func() {
 						resource.MetadataPair{Name: "name", Value: "release-name", URL: "http://google.com"},
 						resource.MetadataPair{Name: "body", Value: "*markdown*", Markdown: true},
 						resource.MetadataPair{Name: "tag", Value: "v0.35.0"},
+						resource.MetadataPair{Name: "created-at", Value: "92640780"},
+						resource.MetadataPair{Name: "published-at", Value: "93641100"},
 					))
 				})
 
@@ -343,6 +350,8 @@ var _ = Describe("In Command", func() {
 						resource.MetadataPair{Name: "name", Value: "release-name", URL: "http://google.com"},
 						resource.MetadataPair{Name: "body", Value: "*markdown*", Markdown: true},
 						resource.MetadataPair{Name: "tag", Value: "v0.35.0"},
+						resource.MetadataPair{Name: "created-at", Value: "92640780"},
+						resource.MetadataPair{Name: "published-at", Value: "93641100"},
 					))
 				})
 
@@ -436,6 +445,8 @@ var _ = Describe("In Command", func() {
 					resource.MetadataPair{Name: "body", Value: "*markdown*", Markdown: true},
 					resource.MetadataPair{Name: "tag", Value: "v0.35.0"},
 					resource.MetadataPair{Name: "draft", Value: "true"},
+					resource.MetadataPair{Name: "created-at", Value: "92640780"},
+					resource.MetadataPair{Name: "published-at", Value: "93641100"},
 				))
 			})
 
@@ -473,6 +484,8 @@ var _ = Describe("In Command", func() {
 					resource.MetadataPair{Name: "body", Value: "*markdown*", Markdown: true},
 					resource.MetadataPair{Name: "tag", Value: ""},
 					resource.MetadataPair{Name: "draft", Value: "true"},
+					resource.MetadataPair{Name: "created-at", Value: "92640780"},
+					resource.MetadataPair{Name: "published-at", Value: "93641100"},
 				))
 			})
 
@@ -504,6 +517,8 @@ var _ = Describe("In Command", func() {
 					resource.MetadataPair{Name: "name", Value: "release-name", URL: "http://google.com"},
 					resource.MetadataPair{Name: "body", Value: "*markdown*", Markdown: true},
 					resource.MetadataPair{Name: "draft", Value: "true"},
+					resource.MetadataPair{Name: "created-at", Value: "92640780"},
+					resource.MetadataPair{Name: "published-at", Value: "93641100"},
 				))
 			})
 
