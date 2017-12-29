@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/google/go-github/github"
+	"encoding/json"
 )
 
 type InCommand struct {
@@ -131,10 +132,17 @@ func (c *InCommand) Run(destDir string, request InRequest) (InResponse, error) {
 		}
 	}
 
-	return InResponse{
+	response := InResponse{
 		Version:  versionFromRelease(foundRelease),
 		Metadata: metadataFromRelease(foundRelease),
-	}, nil
+	}
+	metadataPath := filepath.Join(destDir, "metadata")
+	metadataJson, err := json.Marshal(response)
+	if err != nil {
+		return InResponse{}, err
+	}
+	err = ioutil.WriteFile(metadataPath, metadataJson, 0644)
+	return response, nil
 }
 
 func (c *InCommand) downloadAsset(asset *github.ReleaseAsset, destPath string) error {

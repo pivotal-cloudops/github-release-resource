@@ -169,6 +169,25 @@ var _ = Describe("In Command", func() {
 					Ω(string(contents)).Should(Equal("*markdown*"))
 				})
 
+				It("does create the metadata file", func() {
+					inResponse, inErr = command.Run(destDir, inRequest)
+
+					expectedMetadata := "{" +
+						"\"version\":{\"tag\":\"v0.35.0\"}," +
+						"\"metadata\":[" +
+							"{\"name\":\"name\",\"value\":\"release-name\",\"url\":\"http://google.com\",\"markdown\":false}," +
+							"{\"name\":\"url\",\"value\":\"http://google.com\",\"url\":\"\",\"markdown\":false}," +
+							"{\"name\":\"body\",\"value\":\"*markdown*\",\"url\":\"\",\"markdown\":true}," +
+							"{\"name\":\"tag\",\"value\":\"v0.35.0\",\"url\":\"\",\"markdown\":false}," +
+							"{\"name\":\"created-at\",\"value\":\"92640780\",\"url\":\"\",\"markdown\":false}," +
+							"{\"name\":\"published-at\",\"value\":\"93641100\",\"url\":\"\",\"markdown\":false}" +
+							"]" +
+						"}"
+					contents, err := ioutil.ReadFile(path.Join(destDir, "metadata"))
+					Ω(err).ShouldNot(HaveOccurred())
+					Ω(string(contents)).Should(Equal(expectedMetadata))
+				})
+
 				Context("when include_source_tarball is true", func() {
 					var tarballUrl *url.URL
 
@@ -458,6 +477,27 @@ var _ = Describe("In Command", func() {
 				contents, err = ioutil.ReadFile(path.Join(destDir, "version"))
 				Ω(err).ShouldNot(HaveOccurred())
 				Ω(string(contents)).Should(Equal("0.35.0"))
+			})
+
+			It("does create the metadata file", func() {
+				inResponse, inErr = command.Run(destDir, inRequest)
+
+				expectedMetadata := "{" +
+					"\"version\":{\"id\":\"1\"}," +
+					"\"metadata\":[" +
+					"{\"name\":\"name\",\"value\":\"release-name\",\"url\":\"http://google.com\",\"markdown\":false}," +
+					"{\"name\":\"url\",\"value\":\"http://google.com\",\"url\":\"\",\"markdown\":false}," +
+					"{\"name\":\"body\",\"value\":\"*markdown*\",\"url\":\"\",\"markdown\":true}," +
+					"{\"name\":\"tag\",\"value\":\"v0.35.0\",\"url\":\"\",\"markdown\":false}," +
+					"{\"name\":\"draft\",\"value\":\"true\",\"url\":\"\",\"markdown\":false}," +
+					"{\"name\":\"created-at\",\"value\":\"92640780\",\"url\":\"\",\"markdown\":false}," +
+					"{\"name\":\"published-at\",\"value\":\"93641100\",\"url\":\"\",\"markdown\":false}" +
+					"]" +
+					"}"
+
+				contents, err := ioutil.ReadFile(path.Join(destDir, "metadata"))
+				Ω(err).ShouldNot(HaveOccurred())
+				Ω(string(contents)).Should(Equal(expectedMetadata))
 			})
 		})
 
